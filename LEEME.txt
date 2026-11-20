@@ -1,0 +1,4 @@
+MAPA FISCAL MUNDIAL - BILINGÜE ES / EN
+
+Abra index.html en Firefox, Chrome o Edge. Pulse la bandera del encabezado para cambiar de idioma.
+El mapa funciona sin servicios externos. Las fichas en inglés presentan un resumen fiscal orientativo; consulte las fuentes enlazadas para detalles.
