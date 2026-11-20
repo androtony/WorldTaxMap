@@ -3,7 +3,7 @@
 <html lang="es">
 <head>
 <meta charset="utf-8"/><meta content="width=device-width, initial-scale=1" name="viewport"/><meta content="#0b121a" name="theme-color"/>
-<title>Mapa fiscal mundial - ¿donde se paga menos?</title>
+<title>Mapa fiscal mundial - ¿Dónde se paga menos?</title>
 <style>
 :root{--bg:#0b121a;--panel:#111d28;--panel2:#172633;--line:#263947;--text:#edf4f8;--muted:#9bb0bd;--green:#26c978;--yellow:#f5c542;--blue:#69b8e7;--shadow:0 14px 38px #0006}
 *{box-sizing:border-box}html,body{margin:0;min-height:100%;background:var(--bg);color:var(--text);font-family:Inter,ui-sans-serif,system-ui,-apple-system,"Segoe UI",Roboto,Arial,sans-serif}body{background:radial-gradient(ellipse at 18% -10%,#1d3542 0,transparent 42%),var(--bg)}
@@ -45,9 +45,32 @@
 .compare-head{display:flex;justify-content:space-between;align-items:flex-start;gap:12px;margin-bottom:15px}.compare-head h2{margin:0;font-size:22px}.compare-head p{margin:5px 0 0;color:var(--muted);font-size:12px}.compare-close{background:#223746;border:1px solid var(--line);color:#fff;border-radius:9px;padding:8px 12px;cursor:pointer;font-size:18px}
 .compare-selectors{display:grid;grid-template-columns:1fr 1fr;gap:14px;margin-bottom:15px}.compare-selectors label{display:block;font-size:12px;color:var(--muted);margin-bottom:5px}.compare-selectors select{width:100%;padding:11px;border-radius:9px;background:#192c3a;color:#f4f8fb;border:1px solid #456074;font-size:13px}
 .compare-results{display:grid;grid-template-columns:1fr 1fr;gap:14px}.compare-country{min-width:0;background:#142431;border:1px solid #2b4353;border-radius:13px;padding:14px}.compare-country h3{margin:0 0 12px;font-size:19px}.compare-field{border-top:1px solid #304555;padding:10px 0;overflow-wrap:anywhere}.compare-field h4{font-size:11px;color:#83b8d1;margin:0 0 5px;text-transform:uppercase;letter-spacing:.05em}.compare-field p{font-size:12px;line-height:1.55;margin:0;white-space:pre-line}.compare-field a{color:#9bd9ff}.compare-note{margin-top:14px;font-size:11px;line-height:1.5;color:#9bb0bd}
-@media(max-width:650px){.compare-selectors,.compare-results{grid-template-columns:1fr}.compare-dialog{max-height:95vh}.compare-country{padding:12px}}
+/* Comparación móvil: dos fichas horizontales con deslizamiento táctil. */
+@media(max-width:650px){
+ .compare-backdrop{padding:6px}
+ .compare-dialog{width:100%;max-width:100%;max-height:96dvh;padding:14px 10px;overflow-y:auto;overflow-x:hidden;border-radius:14px}
+ .compare-head h2{font-size:19px}
+ .compare-selectors{grid-template-columns:repeat(2,minmax(0,1fr));gap:8px}
+ .compare-selectors>div{min-width:0}
+ .compare-selectors select{min-width:0;max-width:100%;font-size:12px;padding:9px 5px}
+ .compare-results{display:flex;flex-wrap:nowrap;gap:10px;overflow-x:auto;overflow-y:hidden;overscroll-behavior-x:contain;-webkit-overflow-scrolling:touch;scroll-snap-type:x proximity;scroll-padding-inline:2px;padding:2px 2px 14px;touch-action:pan-x pan-y;scrollbar-width:thin;scrollbar-color:#6a9fbd #172b38}
+ .compare-results::-webkit-scrollbar{height:7px}
+ .compare-results::-webkit-scrollbar-thumb{background:#6a9fbd;border-radius:10px}
+ .compare-country{flex:0 0 clamp(240px,77vw,340px);min-width:0;padding:12px;scroll-snap-align:start}
+ .compare-country h3{font-size:17px}
+ .compare-field{padding:9px 0}
+ .compare-field p{font-size:12px}
+ .compare-swipe-hint{display:flex;align-items:center;justify-content:center;gap:7px;color:#a8c6d8;font-size:11px;margin:0 0 9px;text-align:center}
+}
+@media(min-width:651px){.compare-swipe-hint{display:none}}
+
+
+/* Título responsive: la pregunta siempre permanece en una sola línea. */
+header h1 .headline-main,header h1 .headline-question{display:block}
+header h1 .headline-question{white-space:nowrap;font-size:clamp(15px,2.55vw,39px);letter-spacing:-.045em}
+@media(max-width:650px){header h1 .headline-question{font-size:clamp(14px,3.65vw,23px);letter-spacing:-.055em}}
 </style></head><body><div class="shell">
-<header><div><div class="kicker">Observatorio fiscal · Mapa interactivo</div><h1>Mapa fiscal mundial - ¿donde se paga menos?</h1><p class="sub">Explora jurisdicciones por su fiscalidad personal, empresarial y territorial. Los porcentajes son referencias generales y no sustituyen el análisis de residencia fiscal, fuente de renta y actividad real.</p></div><div class="header-actions"><button class="stamp compare-toggle" id="compareToggle" type="button" aria-haspopup="dialog" aria-controls="compareBackdrop">Comparador</button><div class="stamp">Revisión fiscal · 20 NOV 2026</div><button aria-label="Switch to English" class="stamp lang-toggle" id="languageToggle" title="Switch to English" type="button">🇬🇧</button></div></header>
+<header><div><div class="kicker">Observatorio fiscal · Mapa interactivo</div><h1><span class="headline-main">Mapa fiscal mundial</span><span class="headline-question">¿Dónde se paga menos?</span></h1><p class="sub">Explora jurisdicciones por su fiscalidad personal, empresarial y territorial. Los porcentajes son referencias generales y no sustituyen el análisis de residencia fiscal, fuente de renta y actividad real.</p></div><div class="header-actions"><button class="stamp compare-toggle" id="compareToggle" type="button" aria-haspopup="dialog" aria-controls="compareBackdrop">Comparador</button><div class="stamp">Revisión fiscal · 20 NOV 2026</div><button aria-label="Switch to English" class="stamp lang-toggle" id="languageToggle" title="Switch to English" type="button">🇬🇧</button></div></header>
 <nav aria-label="Secciones fiscales" class="tabs">
 <button class="tab active" data-view="paraisos" type="button">Paraísos fiscales</button>
 <button class="tab" data-view="irpf" type="button">Bajo IRPF</button>
@@ -60,7 +83,7 @@
 <div class="footer">Las fichas enlazan fuentes oficiales y resúmenes fiscales actualizados. Los datos son informativos, no asesoramiento fiscal, legal o migratorio. La estructura y los impuestos concretos pueden cambiar según residencia, nacionalidad, tipo de ingreso, actividad, establecimiento permanente y obligaciones de información.</div>
 </div>
 <div class="popup-backdrop" hidden="" id="popupBackdrop" role="presentation"><article aria-labelledby="popupTitle" aria-modal="true" class="popup" id="popup" role="dialog"><div class="popup-head"><div><h2 class="popup-title" id="popupTitle"></h2><span class="tag" id="popupTag"></span></div><button aria-label="Cerrar ficha" class="close" id="closePopup" type="button">×</button></div><div class="popup-body" id="popupBody"></div></article></div>
-<div id="compareBackdrop" class="compare-backdrop" hidden><section class="compare-dialog" role="dialog" aria-modal="true" aria-labelledby="compareTitle"><div class="compare-head"><div><h2 id="compareTitle">Comparador fiscal</h2><p id="compareSubtitle">Selecciona dos países o territorios de todas las categorías.</p></div><button class="compare-close" id="compareClose" aria-label="Cerrar comparador" type="button">×</button></div><div class="compare-selectors"><div><label id="compareLabelA" for="compareA">País o territorio 1</label><select id="compareA"></select></div><div><label id="compareLabelB" for="compareB">País o territorio 2</label><select id="compareB"></select></div></div><div id="compareResults" class="compare-results" aria-live="polite"></div><p id="compareNote" class="compare-note">Los tipos son referencias de distintas figuras tributarias y no son directamente comparables. La tributación real depende de la residencia, la fuente de renta y los requisitos legales.</p></section></div>
+<div id="compareBackdrop" class="compare-backdrop" hidden><section class="compare-dialog" role="dialog" aria-modal="true" aria-labelledby="compareTitle"><div class="compare-head"><div><h2 id="compareTitle">Comparador fiscal</h2><p id="compareSubtitle">Selecciona dos países o territorios de todas las categorías.</p></div><button class="compare-close" id="compareClose" aria-label="Cerrar comparador" type="button">×</button></div><div class="compare-selectors"><div><label id="compareLabelA" for="compareA">País o territorio 1</label><select id="compareA"></select></div><div><label id="compareLabelB" for="compareB">País o territorio 2</label><select id="compareB"></select></div></div><p class="compare-swipe-hint" id="compareSwipeHint">← Desliza para comparar →</p><div id="compareResults" class="compare-results" aria-live="polite"></div><p id="compareNote" class="compare-note">Los tipos son referencias de distintas figuras tributarias y no son directamente comparables. La tributación real depende de la residencia, la fuente de renta y los requisitos legales.</p></section></div>
 <script>
 const DATA = [
 {id:'as',name:'Samoa Americana',status:'black',coords:[-14.27,-170.70],rate:'Tipo variable',tax:'Sistema fiscal propio basado en una versión modificada del código tributario estadounidense. No existe un porcentaje único simple que represente todos los tipos y supuestos.',bank:'No debe interpretarse como secreto absoluto. La documentación de la UE ha señalado que no aplica el intercambio automático de información financiera en el marco CRS.',crs:'No CRS automático identificado en la documentación de la UE. Estados Unidos mantiene mecanismos distintos, como FATCA y acuerdos específicos; no equivalen al CRS.',foreign:'No hay una exención offshore general que pueda presumirse. La tributación depende del origen de la renta, del estatus de residencia y de las reglas aplicables de EE. UU. y del territorio.',benefit:'No es correcto tratarla como una jurisdicción de 0 %. Para una actividad real se deben analizar la fuente de ingresos, los vínculos con EE. UU., la residencia de los propietarios y las obligaciones locales.',sources:[['IRS · territorios de EE. UU.','https://www.irs.gov/individuals/international-taxpayers/persons-employed-in-us-possessions'],['Consejo UE · lista','https://www.consilium.europa.eu/es/policies/eu-list-of-non-cooperative-jurisdictions/']]},
@@ -211,7 +234,7 @@ const EN_UI = {
 const EN_NAMES = {
  'Samoa Americana':'American Samoa','Anguila':'Anguilla','Palaos':'Palau','Rusia':'Russia','Islas Turcas y Caicos':'Turks and Caicos Islands','Islas Vírgenes de Estados Unidos':'US Virgin Islands','Islas Vírgenes Británicas':'British Virgin Islands','Brunéi':'Brunei','Esuatini':'Eswatini','Groenlandia':'Greenland','Jordania':'Jordan','Montenegro':'Montenegro','Marruecos':'Morocco','Panamá':'Panama','Turquía':'Turkey','Vietnam':'Vietnam','Antigua y Barbuda':'Antigua and Barbuda','Bahamas':'Bahamas','Baréin':'Bahrain','Bermudas':'Bermuda','Islas Caimán':'Cayman Islands','Kuwait':'Kuwait','Mónaco':'Monaco','Omán':'Oman','Catar':'Qatar','Arabia Saudí':'Saudi Arabia','San Cristóbal y Nieves':'Saint Kitts and Nevis','Emiratos Árabes Unidos':'United Arab Emirates','Hong Kong':'Hong Kong','Costa Rica':'Costa Rica','Paraguay':'Paraguay','República Dominicana':'Dominican Republic','Georgia':'Georgia','Malasia':'Malaysia','Singapur':'Singapore','Bulgaria':'Bulgaria','Andorra':'Andorra','Hungría':'Hungary','Chipre':'Cyprus','Malta':'Malta','Guam':'Guam','Vanuatu':'Vanuatu'};
 let lang='es';
-const originalStatic = [...document.querySelectorAll('header .kicker,header h1,header .sub,header .stamp:not(.lang-toggle):not(.compare-toggle),nav .tab,.map-head span,.map-legend span')].map(el=>[el,el.textContent]);
+const originalStatic = [...document.querySelectorAll('header .kicker,header .sub,header .stamp:not(.lang-toggle):not(.compare-toggle),nav .tab,.map-head span,.map-legend span')].map(el=>[el,el.textContent]);
 const originalPlaceholder=search.placeholder;
 function enName(name){return EN_NAMES[name]||name;}
 function enRate(str){return String(str||'').replace(/IRPF/g,'personal income tax').replace(/sociedades distribuidas/g,'distributed profits tax').replace(/sociedades/g,'corporate tax').replace(/pequeño empresario/g,'small-business regime').replace(/sobre salario/g,'on salary').replace(/en salarios/g,'on wages').replace(/tipo general/g,'standard rate').replace(/tipo federal de referencia/g,'reference federal rate').replace(/tipo variable/g,'variable rate').replace(/progresivo/g,'progressive').replace(/hasta/g,'up to').replace(/desde/g,'since').replace(/impuesto directo sobre/g,'direct tax on').replace(/impuesto general sobre beneficios/g,'general profits tax').replace(/impuesto general sobre/g,'general tax on').replace(/tipo del código espejo/g,'mirror-code rate').replace(/referencia del código espejo/g,'mirror-code reference').replace(/renta gravable local/g,'local taxable income').replace(/según sector\/beneficio/g,'depending on sector/profits').replace(/sector financiero/g,'financial sector').replace(/IRPF 0–25 %/g,'personal income tax 0–25%').replace(/salarios exentos/g,'exempt wages');}
@@ -248,7 +271,7 @@ renderList=function(){originalRenderList();if(lang!=='en')return;
 const originalRender=render;
 render=function(){originalRender();if(lang==='en')renderLegend();};
 function applyLanguage(next){lang=next;document.documentElement.lang=lang;
- document.title=lang==='es'?'Mapa fiscal mundial - ¿donde se paga menos?':'World tax map - Where do you pay less?';
+ document.title=lang==='es'?'Mapa fiscal mundial - ¿Dónde se paga menos?':'World tax map - Where do you pay less?';
  document.querySelectorAll('header .kicker,header h1,header .sub,header .stamp:not(.lang-toggle):not(.compare-toggle),nav .tab,.map-head span').forEach(el=>{
  const pair=originalStatic.find(x=>x[0]===el);if(!pair)return;
  el.textContent=lang==='es'?pair[1]:(EN_UI[pair[1]]|| (el.matches('header .sub')?'Explore jurisdictions by personal, corporate and territorial taxation. Rates are general references and do not replace an assessment of tax residence, income source and actual business activity.':pair[1]));
@@ -316,6 +339,7 @@ function renderCompare(){
  document.getElementById('compareLabelB').textContent=compareText('País o territorio 2','Country or territory 2');
  document.getElementById('compareClose').setAttribute('aria-label',compareText('Cerrar comparador','Close comparison'));
  document.getElementById('compareToggle').textContent=compareText('Comparador','Compare');
+ document.getElementById('compareSwipeHint').textContent=compareText('← Desliza para comparar →','← Swipe to compare →');
  document.getElementById('compareNote').textContent=compareText('Los tipos son referencias de distintas figuras tributarias y no son directamente comparables. La tributación real depende de la residencia, la fuente de renta y los requisitos legales.','Rates refer to different tax categories and are not directly comparable. Actual tax liability depends on residence, income source and legal requirements.');
  for(const [sel,value] of [[compareA,a],[compareB,b]]){
   sel.innerHTML=compareNames.map(name=>`<option value="${esc(name)}">${esc(lang==='en'?enName(name):name)}</option>`).join('');
